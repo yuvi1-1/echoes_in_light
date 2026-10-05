@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Yuvraj Pegu · Code, Light &amp; Sound</title>
+<meta name="description" content="There is more in you than you are living.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#050506; --fg:#ecebe6; --muted:#8d8c88; --line:rgba(236,235,230,.14);
+  --accent:#e8c27a; --beam:rgba(232,194,122,.20);
+  --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){--bg:#f4f1ea;--fg:#14130f;--muted:#6b6a64;--line:rgba(20,19,15,.16);--accent:#9a6a12;--beam:rgba(154,106,18,.16)}
+}
+:root[data-theme="light"]{--bg:#f4f1ea;--fg:#14130f;--muted:#6b6a64;--line:rgba(20,19,15,.16);--accent:#9a6a12;--beam:rgba(154,106,18,.16)}
+:root[data-theme="dark"]{--bg:#050506;--fg:#ecebe6;--muted:#8d8c88;--line:rgba(236,235,230,.14);--accent:#e8c27a;--beam:rgba(232,194,122,.20)}
+html{height:100%;scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--fg);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+
+/* light beam that drifts as you scroll */
+.beam{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+   radial-gradient(ellipse 28% 70% at calc(50% + var(--sx,0) * 1%) 0%,var(--beam),transparent 70%),
+   radial-gradient(ellipse 60% 40% at 50% 110%,var(--beam),transparent 70%);
+  opacity:var(--o,1);transition:opacity .4s linear}
+.bar{position:fixed;top:env(safe-area-inset-top,0px);left:0;height:2px;width:calc(var(--p,0) * 100%);background:var(--accent);z-index:30}
+
+nav{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:20px clamp(20px,4vw,44px);font-size:12px;letter-spacing:.18em;text-transform:uppercase}
+nav .brand{color:var(--muted)}
+nav a.cta{border-bottom:1px solid var(--accent);padding-bottom:2px}
+
+main{position:relative;z-index:1}
+.scene{min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:96px clamp(22px,6vw,80px)}
+.label{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);margin:0 0 28px}
+h1,h2{font-family:var(--serif);font-weight:400;line-height:1.02;letter-spacing:-.01em;margin:0;max-width:16ch}
+h1{font-size:clamp(46px,9.5vw,128px)}
+h2{font-size:clamp(36px,6.6vw,88px);max-width:18ch}
+em{font-style:italic;color:var(--accent)}
+b{font-weight:600}
+
+/* reveal */
+.r{opacity:0;transform:translateY(26px);transition:opacity 1s ease,transform 1s ease}
+.r.d1{transition-delay:.15s}.r.d2{transition-delay:.3s}
+.in .r,.r.in{opacity:1;transform:none}
+
+.cue{position:absolute;bottom:calc(28px + env(safe-area-inset-bottom,0px));font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(6px)}}
+
+.creds{list-style:none;margin:48px 0 0;padding:0;display:grid;gap:14px;font-size:clamp(15px,2vw,19px);color:var(--muted)}
+.creds li{padding-top:14px;border-top:1px solid var(--line)}
+.creds li:first-child{color:var(--fg);border-top:0;padding-top:0;font-family:var(--serif);font-size:clamp(24px,3.4vw,38px)}
+
+.next{list-style:none;margin:40px 0 0;padding:0;width:min(640px,100%);text-align:left;counter-reset:n}
+.next li{counter-increment:n;display:flex;gap:20px;align-items:baseline;padding:18px 0;border-top:1px solid var(--line);font-family:var(--serif);font-size:clamp(22px,3vw,34px)}
+.next li:last-child{border-bottom:1px solid var(--line)}
+.next li::before{content:"0" counter(n);font-family:var(--sans);font-size:11px;letter-spacing:.2em;color:var(--accent)}
+
+.close{font-family:var(--serif);font-size:clamp(34px,6vw,76px);line-height:1.05;margin:0}
+.links{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 28px;margin-top:44px;font-size:12px;letter-spacing:.18em;text-transform:uppercase}
+.links a{color:var(--muted);transition:color .2s}.links a:hover{color:var(--accent)}
+footer{position:relative;z-index:1;text-align:center;padding:28px 20px 40px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+
+@media (prefers-reduced-motion:reduce){.r{opacity:1;transform:none;transition:none}.cue{animation:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="beam" id="beam"></div>
+<div class="bar"></div>
+
+<nav>
+  <span class="brand">Code · Light · Sound</span>
+  <a class="cta" href="#next">What's next →</a>
+</nav>
+
+<main>
+  <section class="scene">
+    <p class="label r">Yuvraj Pegu · CSE · NIT Delhi</p>
+    <h1 class="r d1">I build in code. I paint in <em>light.</em></h1>
+    <span class="cue">scroll to go in ↓</span>
+  </section>
+
+  <section class="scene">
+    <p class="label r">i'm yuvraj</p>
+    <h2 class="r d1">I'm an engineer who refuses to be just <em>one version of me.</em></h2>
+    <p class="label r d2" style="margin:28px 0 0">why i do it</p>
+  </section>
+
+  <section class="scene">
+    <h2 class="r">I turn logic into visuals, and visuals into <em>feeling.</em></h2>
+    <p class="label r d1" style="margin:28px 0 0">why i show you</p>
+  </section>
+
+  <section class="scene">
+    <h2 class="r">I do it so you'll see you don't have to pick between the safe path and the <em>loud one.</em></h2>
+    <ul class="creds r d1">
+      <li>Final-year CSE student · NIT Delhi</li>
+      <li>VJ artist · live visuals as @echoes_in_light11</li>
+      <li>Building toward a top tech role · learning electric guitar</li>
+    </ul>
+  </section>
+
+  <section class="scene" id="next">
+    <p class="label r">what's next</p>
+    <h2 class="r d1">I'm just <em>getting started.</em></h2>
+    <ol class="next r d2">
+      <li>Land a great corporate role after NIT Delhi</li>
+      <li>Take my VJ sets to bigger screens and stages</li>
+      <li>Learn the electric guitar, first riff to first gig</li>
+      <li>Merge it all: live visuals synced to live guitar</li>
+      <li>Document the journey in public</li>
+    </ol>
+  </section>
+
+  <section class="scene">
+    <p class="label r">come with me</p>
+    <h2 class="r d1">Some of it will land. Some will <em>glitch.</em> Come watch either way.</h2>
+  </section>
+
+  <section class="scene">
+    <p class="close r">Logic builds the career.<br>Light builds the <em>life.</em></p>
+    <div class="links r d1">
+      <a href="https://www.instagram.com/itzzz__yuvi" target="_blank" rel="noopener">Instagram</a><a href="https://www.instagram.com/echoes_in_light11" target="_blank" rel="noopener">VJ Work</a><a href="https://github.com/yuvi1-1" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/yuvraj-pegu-292079323/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </section>
+</main>
+
+<footer>© Yuvraj Pegu · NIT Delhi</footer>
+
+<script>
+(function(){
+  var scenes=document.querySelectorAll('.scene');
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){e.target.classList.toggle('in',e.isIntersecting)});
+  },{threshold:.35});
+  scenes.forEach(function(s){io.observe(s)});
+
+  var root=document.documentElement,beam=document.getElementById('beam'),tick=false;
+  function update(){
+    var max=root.scrollHeight-innerHeight,p=max>0?scrollY/max:0;
+    root.style.setProperty('--p',p.toFixed(4));
+    beam.style.setProperty('--sx',(Math.sin(p*Math.PI*3)*22).toFixed(2));
+    beam.style.setProperty('--o',(1-Math.abs(Math.sin(p*Math.PI*3))*.35).toFixed(2));
+    tick=false;
+  }
+  addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(update)}},{passive:true});
+  update();
+})();
+</script>
+</body>
+</html>
