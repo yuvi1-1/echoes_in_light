@@ -4,7 +4,7 @@ linkedin.com/in/yuvraj-pegu-292079323# Yuvraj Pegu — Code, Light & Sound
 
 **Live Portfolio:** https://yuvi1-1.github.io/echoes_in_light/
 **GitHub:** https://github.com/yuvi1-1  
-**LinkedIn:** linkedin.com/in/yuvraj-pegu-292079323
+**LinkedIn:** https://linkedin.com/in/yuvraj-pegu-292079323
 **Instagram:** https://www.instagram.com/itzzz__yuvi/?hl=en
 
 ---
